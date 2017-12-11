@@ -1,8 +1,8 @@
-`ewp-rsa-aes128cbc` Request Encryption
+`ewp-rsa-aes128gcm` Request Encryption
 ======================================
 
 This document describes how to accomplish confidentiality of EWP HTTP requests
-with the use of `ewp-rsa-aes128cbc` encryption.
+with the use of `ewp-rsa-aes128gcm` encryption.
 
 * [What is the status of this document?][statuses]
 * [See the index of all other EWP Specifications][develhub]
@@ -12,7 +12,7 @@ Introduction
 ------------
 
 This method of request encryption can be used, when - for any reason - using
-plain TLS is "not enough". It makes use of `ewp-rsa-aes128cbc` encryption, as
+plain TLS is "not enough". It makes use of `ewp-rsa-aes128gcm` encryption, as
 specified [here][encr-spec].
 
 This method of request encryption works only for POST requests, because only
@@ -33,14 +33,14 @@ can encrypt their requests to your HTTP endpoints with this key.
 ### Verify encryption method used
 
 Make sure that the list of encodings in the client's `Content-Encoding` request
-header contains the `ewp-rsa-aes128cbc` key (case sensitive).
+header contains the `ewp-rsa-aes128gcm` key (case sensitive).
 
-You are REQUIRED to support `Content-Encoding: ewp-rsa-aes128cbc` only. You are
+You are REQUIRED to support `Content-Encoding: ewp-rsa-aes128gcm` only. You are
 NOT REQUIRED to support multiple `Content-Encoding`s. If the request contains
-more that one (e.g. `Content-Encoding: gzip, ewp-rsa-aes128cbc`), then you MAY
+more that one (e.g. `Content-Encoding: gzip, ewp-rsa-aes128gcm`), then you MAY
 respond with HTTP 400.
 
-If `ewp-rsa-aes128cbc` is not present among the encodings in the
+If `ewp-rsa-aes128gcm` is not present among the encodings in the
 `Content-Encoding` request header, then the client doesn't use this encryption
 method, or is using it incorrectly. In this case:
 
@@ -56,7 +56,7 @@ method, or is using it incorrectly. In this case:
 ### Decrypt the payload
 
 Read the body of the request. It SHOULD contain a valid `ewpRsaAesBody` block,
-as specified in [`ewp-rsa-aes128cbc` Encryption Specs][encr-spec].
+as specified in [`ewp-rsa-aes128gcm` Encryption Specs][encr-spec].
 
 If `recipientPublicKeyFingerprint` doesn't match any of your public keys,
 `ewpRsaAesBody` block is invalid, or cannot be decrypted for any reason, then
@@ -75,19 +75,29 @@ public key of your recipient. In case there are many, you can use any of them.
 
 ### Include all required headers
 
-You MUST set your `Content-Encoding` header to `ewp-rsa-aes128cbc`. You SHOULD
+You MUST set your `Content-Encoding` header to `ewp-rsa-aes128gcm`. You SHOULD
 NOT use multiple values in your `Content-Encoding` header, because the server
 is not required to support it.
 
 
 ### Encrypt the payload
 
-Encrypt your payload, as described in [`ewp-rsa-aes128cbc` Encryption
+Encrypt your payload, as described in [`ewp-rsa-aes128gcm` Encryption
 Specs][encr-spec]. Include the `ewpRsaAesBody` block in your request body.
 
 
 Security considerations
 -----------------------
+
+### When *not* to use this method
+
+ * When the request doesn't contain any private user data, so there's no real
+   gain in encrypting it.
+
+ * When you use (and trust) TLS for transport, and the server's internal
+   network (the one between a TLS terminator and the actual endpoint) can be
+   fully trusted.
+
 
 ### Main security questions
 
@@ -98,7 +108,7 @@ answer a couple of questions:
 > How the client's request must look like? How can the server detect that the
 > client is using this particular method of encryption?
 
-Server detects this method by checking if `ewp-rsa-aes128cbc` is present
+Server detects this method by checking if `ewp-rsa-aes128gcm` is present
 among the client's `Content-Encoding` request header values.
 
 > How the server publishes his encryption key? How the client retrieves it
@@ -119,4 +129,4 @@ encrypted. HTTP headers are not encrypted.
 [statuses]: https://github.com/erasmus-without-paper/ewp-specs-management/blob/stable-v1/README.md#statuses
 [sec-intro]: https://github.com/erasmus-without-paper/ewp-specs-sec-intro
 [sec-method-rules]: https://github.com/erasmus-without-paper/ewp-specs-sec-intro#rules
-[encr-spec]: https://github.com/erasmus-without-paper/ewp-specs-sec-rsa-aes128cbc
+[encr-spec]: https://github.com/erasmus-without-paper/ewp-specs-sec-rsa-aes128gcm
