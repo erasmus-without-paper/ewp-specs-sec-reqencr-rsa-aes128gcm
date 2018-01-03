@@ -5,6 +5,17 @@ This document describes all the changes made to the *`ewp-rsa-aes128gcm`
 Request Encryption* document, starting from its first released version.
 
 
+0.3.0
+-----
+
+* Indicated, that this encryption method can be used with other HTTP request
+  types besides POST. (Previous version suggested that only POST request may
+  contain a meaningful body.)
+* Clarified what to do in case of some specific errors (e.g. receiving a GET
+  request).
+* Clarified that `Content-Type` must not be obfuscated.
+
+
 0.2.0
 -----
 
