@@ -88,9 +88,10 @@ Remember to use the recipient's server key (not the client key).
 
 ### Include all required headers
 
-You MUST set your `Content-Encoding` header to `ewp-rsa-aes128gcm`. You SHOULD
-NOT use multiple values in your `Content-Encoding` header, because the server
-is not required to support it.
+You MUST include `ewp-rsa-aes128gcm` in your `Content-Encoding` header. You
+SHOULD NOT include any other codings in your `Content-Encoding` header, unless
+you are sure that the server supports them (and the server is required to
+support only `ewp-rsa-aes128gcm`).
 
 All other headers remain "as they were". For example, if you're encrypting the
 request encoded in `application/x-www-form-urlencoded` format, then the
