@@ -49,10 +49,11 @@ method, or is using it incorrectly. In this case:
    allow [regular TLS encryption][reqencr-tls], then you will simply process
    the request (already decrypted by TLS layer).
 
- * If the client doesn't use any of the supported authentication methods, then
-   you MUST respond with HTTP 400 error response, with a proper
-   `<developer-message>` (it SHOULD describe the reason why you consider the
-   request to be invalid).
+ * If the client doesn't use any of the supported encryption methods (e.g. it
+   uses an unknown `Content-Encoding`), or is not using `ewp-rsa-aes128gcm`
+   while you explicitly require it (via your manifest file), then you MUST
+   respond with HTTP 415 error response, with a proper `<developer-message>`
+   (it SHOULD describe the reason why you consider the request to be invalid).
 
 
 ### Verify the HTTP method
