@@ -33,7 +33,7 @@ can encrypt their requests to your HTTP endpoints with this key.
 ### Verify encryption method used
 
 Make sure that the list of encodings in the client's `Content-Encoding` request
-header contains the `ewp-rsa-aes128gcm` key (case sensitive).
+header contains the `ewp-rsa-aes128gcm` entry (case insensitive).
 
 You are REQUIRED to support `Content-Encoding: ewp-rsa-aes128gcm` only. You are
 NOT REQUIRED to support multiple `Content-Encoding`s. If the request contains
