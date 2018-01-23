@@ -5,6 +5,17 @@ This document describes all the changes made to the *`ewp-rsa-aes128gcm`
 Request Encryption* document, starting from its first released version.
 
 
+0.4.0
+-----
+
+* Use a proper HTTP 415 error response code when unsupported `Content-Encoding`
+  is encountered.
+
+* Bugfix: Content-coding values are case-insensitive (per RFC), yet this
+  specification required them to be case-sensitive. The specification was
+  changed to match the RFC standard.
+
+
 0.3.0
 -----
 
